@@ -21,7 +21,7 @@ import xlmuploader.validation.DeviceInfoXmlContentValidator;
 @Constraint(validatedBy = {DeviceInfoXmlContentValidator.class})
 public @interface ValidDeviceInfoXml {
 
-  String message() default "Received file haven't pass xsd validation";
+  String message() default "Received file haven't passed xsd validation";
 
   Class<?>[] groups() default {};
 

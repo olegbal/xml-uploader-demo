@@ -38,8 +38,7 @@ public class DeviceInfoController {
 
   @PostMapping(value = "/api/v1/device-info", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public ResponseEntity<Object> uploadDeviceInfo(
-      @RequestParam("file") @ValidDeviceInfoXml MultipartFile file)
-      throws ParserConfigurationException, IOException, SAXException {
+      @RequestParam("file") @ValidDeviceInfoXml MultipartFile file) {
 
     DeviceInfoDto createdDeviceInfoDto = deviceInfoService.createDeviceInfo(file);
 

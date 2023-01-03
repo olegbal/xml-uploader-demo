@@ -32,8 +32,7 @@ public class JpaDeviceInfoService implements DeviceInfoService {
   }
 
   @Override
-  public DeviceInfoDto createDeviceInfo(MultipartFile xmlFile)
-      throws ParserConfigurationException, IOException, SAXException {
+  public DeviceInfoDto createDeviceInfo(MultipartFile xmlFile) {
 
     DeviceInfo deviceInfo = deviceInfoMapper.toDeviceInfoDto(xmlFile);
 

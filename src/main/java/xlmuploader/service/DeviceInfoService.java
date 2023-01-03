@@ -12,8 +12,7 @@ public interface DeviceInfoService {
 
   DeviceInfoDto updateDeviceInfo(DeviceInfoDto createDeviceInfoDto);
 
-  DeviceInfoDto createDeviceInfo(MultipartFile xmlFile)
-      throws ParserConfigurationException, IOException, SAXException;
+  DeviceInfoDto createDeviceInfo(MultipartFile xmlFile);
 
   Page<DeviceInfoDto> getAllDeviceInfo(Pageable pageable);
 }

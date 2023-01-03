@@ -26,6 +26,7 @@ public class DeviceInfoXmlContentValidator implements
       Schema schema = factory.newSchema(xsdFile);
       Validator validator = schema.newValidator();
       validator.validate(new StreamSource(value.getInputStream()));
+
     } catch (IOException | SAXException e) {
       return false;
     }
