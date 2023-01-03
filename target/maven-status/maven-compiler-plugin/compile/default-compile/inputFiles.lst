@@ -1,0 +1,12 @@
+/Users/alehbalakhanau/IdeaProjects/xlm-uploader-demo/src/main/java/xlmuploader/service/JpaDeviceInfoService.java
+/Users/alehbalakhanau/IdeaProjects/xlm-uploader-demo/src/main/java/xlmuploader/validation/annotation/ValidXmlFile.java
+/Users/alehbalakhanau/IdeaProjects/xlm-uploader-demo/src/main/java/xlmuploader/repository/DeviceInfoRepository.java
+/Users/alehbalakhanau/IdeaProjects/xlm-uploader-demo/src/main/java/xlmuploader/controller/DeviceInfoController.java
+/Users/alehbalakhanau/IdeaProjects/xlm-uploader-demo/src/main/java/xlmuploader/XlmUploaderDemoApplication.java
+/Users/alehbalakhanau/IdeaProjects/xlm-uploader-demo/src/main/java/xlmuploader/domain/dto/DeviceInfoDto.java
+/Users/alehbalakhanau/IdeaProjects/xlm-uploader-demo/src/main/java/xlmuploader/validation/annotation/ValidDeviceInfoXml.java
+/Users/alehbalakhanau/IdeaProjects/xlm-uploader-demo/src/main/java/xlmuploader/service/DeviceInfoService.java
+/Users/alehbalakhanau/IdeaProjects/xlm-uploader-demo/src/main/java/xlmuploader/validation/DeviceInfoXmlContentValidator.java
+/Users/alehbalakhanau/IdeaProjects/xlm-uploader-demo/src/main/java/xlmuploader/validation/XmlExtensionValidator.java
+/Users/alehbalakhanau/IdeaProjects/xlm-uploader-demo/src/main/java/xlmuploader/domain/entity/DeviceInfo.java
+/Users/alehbalakhanau/IdeaProjects/xlm-uploader-demo/src/main/java/xlmuploader/domain/mappers/DeviceInfoMapper.java

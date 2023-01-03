@@ -1,0 +1,7 @@
+xlmuploader/repository/DeviceInfoRepository.class
+xlmuploader/service/DeviceInfoService.class
+xlmuploader/controller/DeviceInfoController.class
+xlmuploader/validation/annotation/ValidXmlFile.class
+xlmuploader/domain/dto/DeviceInfoDto.class
+xlmuploader/service/JpaDeviceInfoService.class
+xlmuploader/domain/entity/DeviceInfo.class
