@@ -1,9 +1,0 @@
-spring:
-  datasource:
-    url: jdbc:postgresql://snuffleupagus.db.elephantsql.com/cpnuzbbu
-    username: cpnuzbbu
-    password: RyhpzEaJ9rnM0pCe5NggiIyGqqRSjBnF
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: create
