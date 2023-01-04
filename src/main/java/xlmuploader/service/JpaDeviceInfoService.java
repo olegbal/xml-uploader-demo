@@ -1,12 +1,10 @@
 package xlmuploader.service;
 
-import java.io.IOException;
-import javax.xml.parsers.ParserConfigurationException;
+import java.time.LocalDateTime;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.xml.sax.SAXException;
 import xlmuploader.domain.dto.DeviceInfoDto;
 import xlmuploader.domain.entity.DeviceInfo;
 import xlmuploader.domain.mappers.DeviceInfoMapper;
@@ -35,6 +33,9 @@ public class JpaDeviceInfoService implements DeviceInfoService {
   public DeviceInfoDto createDeviceInfo(MultipartFile xmlFile) {
 
     DeviceInfo deviceInfo = deviceInfoMapper.toDeviceInfoDto(xmlFile);
+
+    deviceInfo.setId(null);
+    deviceInfo.setUploadDate(LocalDateTime.now());
 
     return deviceInfoMapper.toDeviceInfoDto(deviceInfoRepository.save(deviceInfo));
   }

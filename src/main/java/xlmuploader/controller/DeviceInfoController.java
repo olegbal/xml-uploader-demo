@@ -29,7 +29,7 @@ public class DeviceInfoController {
   }
 
   @GetMapping(value = "/api/v1/device-info", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Page<DeviceInfoDto>> responseEntity(Pageable pageable) {
+  public ResponseEntity<Page<DeviceInfoDto>> getDeviceInfo(Pageable pageable) {
     Page<DeviceInfoDto> allDeviceInfo = deviceInfoService.getAllDeviceInfo(pageable);
 
     return new ResponseEntity<>(allDeviceInfo, HttpStatus.OK);
