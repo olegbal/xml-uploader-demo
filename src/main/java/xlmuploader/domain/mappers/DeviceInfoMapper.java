@@ -1,7 +1,6 @@
 package xlmuploader.domain.mappers;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -37,7 +36,7 @@ public interface DeviceInfoMapper {
       String fileName = xmlFile.getOriginalFilename();
 
       return new DeviceInfo(null, width, height, dpi, newspaperName,
-          LocalDateTime.now(), fileName);
+          null, fileName);
     } catch (SAXException | IOException | ParserConfigurationException ex) {
       throw new CantProcessDeviceInfoXmlException("Unable to parse received xml");
     }
