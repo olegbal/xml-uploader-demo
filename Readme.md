@@ -1,9 +1,10 @@
-### How to run
+### Requirements
 
-1) Requirements
     - Java 11
     - Maven or docker
     - Curl or postman
+
+### How to run
 
 1) Run as docker image
 
@@ -19,4 +20,8 @@ docker run -d --name xml-uploader-demo  -p 8983:8983 ghcr.io/olegbal/xml-uploade
 mvn clean install
 java -jar target/xml-uploader-demo-0.0.1-SNAPSHOT.jar
 ```
+
+### How to use
+
+1) Import in postman postman_collection.json
 
