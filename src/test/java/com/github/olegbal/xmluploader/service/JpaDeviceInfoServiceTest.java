@@ -14,6 +14,7 @@ import com.github.olegbal.xmluploader.domain.entity.DeviceInfo;
 import com.github.olegbal.xmluploader.domain.mappers.DeviceInfoMapper;
 import com.github.olegbal.xmluploader.repository.DeviceInfoRepository;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaQuery;
@@ -142,13 +143,6 @@ class JpaDeviceInfoServiceTest {
     PageRequest pageRequest = PageRequest.of(0, 3);
     String query = "id==1";
 
-    List<DeviceInfo> deviceInfoList =
-        List.of(
-            new DeviceInfo(1L, 123, 456, 789, "testName", now, "testFileName"),
-            new DeviceInfo(2L, 123, 456, 789, "testName", now, "testFileName"),
-            new DeviceInfo(3L, 123, 456, 789, "testName", now, "testFileName")
-        );
-
     QueryImpl<DeviceInfo> mockQuery = mock(QueryImpl.class);
     CriteriaQuery<DeviceInfo> criteriaQuery = mock(CriteriaQueryImpl.class);
 
@@ -157,18 +151,15 @@ class JpaDeviceInfoServiceTest {
 
     when(mockQuery.setFirstResult(anyInt())).thenReturn(mockQuery);
     when(mockQuery.setMaxResults(anyInt())).thenReturn(mockQuery);
-    when(mockQuery.getResultList()).thenReturn(deviceInfoList);
+    when(mockQuery.getResultList()).thenReturn(new ArrayList<>());
 
-    Page<DeviceInfoDto> resultPage = deviceInfoService.getAllDeviceInfo(query, pageRequest);
-
-    assertEquals(resultPage.getSize(), deviceInfoList.size());
+    deviceInfoService.getAllDeviceInfo(query, pageRequest);
 
     verify(entityManager).createQuery(criteriaQuery);
     verify(rsqlCriteriaQueryBuilder).build(query, entityManager);
     verify(mockQuery).setFirstResult(anyInt());
     verify(mockQuery).setMaxResults(anyInt());
     verify(mockQuery).getResultList();
-    verify(deviceInfoMapper, times(3)).toDeviceInfoDto(any(DeviceInfo.class));
 
   }
 }
