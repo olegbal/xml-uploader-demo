@@ -2,7 +2,7 @@
 
     - Java 11
     - Maven or docker
-    - Curl or postman
+    - Postman or another client for sending requests
 
 ### How to run
 

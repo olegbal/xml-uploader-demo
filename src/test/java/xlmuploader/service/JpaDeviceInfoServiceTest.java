@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,12 +34,15 @@ class JpaDeviceInfoServiceTest {
   private DeviceInfoRepository deviceInfoRepository;
   @Mock
   private DeviceInfoMapper deviceInfoMapper;
+  @Mock
+  private EntityManager entityManager;
 
   private DeviceInfoService deviceInfoService;
 
   @BeforeEach
   void initComponents() {
-    this.deviceInfoService = new JpaDeviceInfoService(deviceInfoRepository, deviceInfoMapper);
+    this.deviceInfoService = new JpaDeviceInfoService(deviceInfoRepository, deviceInfoMapper,
+        entityManager);
   }
 
   @Test
@@ -101,6 +105,7 @@ class JpaDeviceInfoServiceTest {
     LocalDateTime now = LocalDateTime.now();
 
     PageRequest pageRequest = PageRequest.of(0, 3);
+    String query = null;
 
     PageImpl<DeviceInfo> deviceInfoResultPage = new PageImpl<>(
         List.of(
@@ -114,7 +119,7 @@ class JpaDeviceInfoServiceTest {
     when(deviceInfoMapper.toDeviceInfoDto(any(DeviceInfo.class))).thenReturn(
         any(DeviceInfoDto.class));
 
-    Page<DeviceInfoDto> resultPage = deviceInfoService.getAllDeviceInfo(pageRequest);
+    Page<DeviceInfoDto> resultPage = deviceInfoService.getAllDeviceInfo(query, pageRequest);
 
     assertEquals(resultPage.getSize(), deviceInfoResultPage.getSize());
 
