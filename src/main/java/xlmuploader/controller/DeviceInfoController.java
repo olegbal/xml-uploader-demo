@@ -25,9 +25,6 @@ public class DeviceInfoController {
   private final DeviceInfoService deviceInfoService;
   private final DeviceInfoRepository deviceInfoRepository;
 
-  @Autowired
-  private EntityManager entityManager;
-
   public DeviceInfoController(DeviceInfoService deviceInfoService,
       DeviceInfoRepository deviceInfoRepository) {
     this.deviceInfoService = deviceInfoService;
