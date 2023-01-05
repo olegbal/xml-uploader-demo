@@ -32,7 +32,7 @@ public class DeviceInfoController {
   }
 
   @GetMapping(value = "/api/v1/device-info", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Page<DeviceInfoDto>> getDeviceInfo(@RequestParam String query,
+  public ResponseEntity<Page<DeviceInfoDto>> getDeviceInfo(@RequestParam(required = false) String query,
       Pageable pageable) {
     Page<DeviceInfoDto> allDeviceInfo = deviceInfoService.getAllDeviceInfo(query, pageable);
 
@@ -42,7 +42,7 @@ public class DeviceInfoController {
 
   @PostMapping(value = "/api/v1/device-info", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public ResponseEntity<Object> uploadDeviceInfo(
-      @RequestParam(value = "file", required = false) @ValidDeviceInfoXml MultipartFile file) {
+      @RequestParam("file") @ValidDeviceInfoXml MultipartFile file) {
 
     DeviceInfoDto createdDeviceInfoDto = deviceInfoService.createDeviceInfo(file);
 
