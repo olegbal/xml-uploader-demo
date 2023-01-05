@@ -163,7 +163,7 @@ class JpaDeviceInfoServiceTest {
 
     assertEquals(resultPage.getSize(), deviceInfoList.size());
 
-    verify(entityManager).createQuery(any(CriteriaQuery.class));
+    verify(entityManager).createQuery(criteriaQuery);
     verify(rsqlCriteriaQueryBuilder).build(query, entityManager);
     verify(mockQuery).setFirstResult(anyInt());
     verify(mockQuery).setMaxResults(anyInt());
