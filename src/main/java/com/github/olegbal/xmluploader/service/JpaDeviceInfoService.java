@@ -3,10 +3,7 @@ package com.github.olegbal.xmluploader.service;
 import com.github.olegbal.xmluploader.domain.dto.DeviceInfoDto;
 import com.github.olegbal.xmluploader.domain.entity.DeviceInfo;
 import com.github.olegbal.xmluploader.domain.mappers.DeviceInfoMapper;
-import com.github.tennaito.rsql.jpa.JpaCriteriaQueryVisitor;
-import cz.jirutka.rsql.parser.RSQLParser;
-import cz.jirutka.rsql.parser.ast.Node;
-import cz.jirutka.rsql.parser.ast.RSQLVisitor;
+import com.github.olegbal.xmluploader.repository.DeviceInfoRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -18,21 +15,22 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import com.github.olegbal.xmluploader.repository.DeviceInfoRepository;
 
 @Service
 public class JpaDeviceInfoService implements DeviceInfoService {
 
   private final DeviceInfoRepository deviceInfoRepository;
   private final DeviceInfoMapper deviceInfoMapper;
-
   private final EntityManager entityManager;
+  private final DeviceInfoRSQLCriteriaQueryBuilder rsqlCriteriaQueryBuilder;
 
   public JpaDeviceInfoService(DeviceInfoRepository deviceInfoRepository,
-      DeviceInfoMapper deviceInfoMapper, EntityManager entityManager) {
+      DeviceInfoMapper deviceInfoMapper, EntityManager entityManager,
+      DeviceInfoRSQLCriteriaQueryBuilder rsqlCriteriaQueryBuilder) {
     this.deviceInfoRepository = deviceInfoRepository;
     this.deviceInfoMapper = deviceInfoMapper;
     this.entityManager = entityManager;
+    this.rsqlCriteriaQueryBuilder = rsqlCriteriaQueryBuilder;
   }
 
   @Override
@@ -56,14 +54,13 @@ public class JpaDeviceInfoService implements DeviceInfoService {
   @Override
   public Page<DeviceInfoDto> getAllDeviceInfo(String rsqlQuery, Pageable pageable) {
     if (!Objects.isNull(rsqlQuery)) {
-      RSQLVisitor<CriteriaQuery<DeviceInfo>, EntityManager> visitor = new JpaCriteriaQueryVisitor<>();
-      Node rootNode = new RSQLParser().parse(rsqlQuery);
-      CriteriaQuery<DeviceInfo> newQuery = rootNode.accept(visitor, entityManager);
+      CriteriaQuery<DeviceInfo> parsedQuery = rsqlCriteriaQueryBuilder.build(rsqlQuery,
+          entityManager);
 
       int pageNumber = pageable.getPageNumber() == 0 ? 0 : pageable.getPageNumber() - 1;
       int pageSize = pageable.getPageSize();
       List<DeviceInfo> resultList = entityManager
-          .createQuery(newQuery)
+          .createQuery(parsedQuery)
           .setFirstResult((pageNumber) * pageSize)
           .setMaxResults(pageSize)
           .getResultList();

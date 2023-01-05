@@ -3,6 +3,7 @@ package com.github.olegbal.xmluploader.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -12,15 +13,11 @@ import com.github.olegbal.xmluploader.domain.dto.DeviceInfoDto;
 import com.github.olegbal.xmluploader.domain.entity.DeviceInfo;
 import com.github.olegbal.xmluploader.domain.mappers.DeviceInfoMapper;
 import com.github.olegbal.xmluploader.repository.DeviceInfoRepository;
-import com.github.tennaito.rsql.jpa.JpaCriteriaQueryVisitor;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.From;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import org.hibernate.query.criteria.internal.CriteriaBuilderImpl;
 import org.hibernate.query.criteria.internal.CriteriaQueryImpl;
 import org.hibernate.query.internal.QueryImpl;
@@ -47,12 +44,14 @@ class JpaDeviceInfoServiceTest {
   @Mock
   private EntityManager entityManager;
 
+  @Mock
+  private DeviceInfoRSQLCriteriaQueryBuilder rsqlCriteriaQueryBuilder;
   private DeviceInfoService deviceInfoService;
 
   @BeforeEach
   void initComponents() {
     this.deviceInfoService = new JpaDeviceInfoService(deviceInfoRepository, deviceInfoMapper,
-        entityManager);
+        entityManager, rsqlCriteriaQueryBuilder);
   }
 
   @Test
@@ -137,42 +136,40 @@ class JpaDeviceInfoServiceTest {
     verify(deviceInfoMapper, times(3)).toDeviceInfoDto(any(DeviceInfo.class));
 
   }
-//
-//  @Test
-//  void testGetAllDeviceInfoWithSearchCriteria() {
-//    LocalDateTime now = LocalDateTime.now();
-//
-//    PageRequest pageRequest = PageRequest.of(0, 3);
-//    String query = "id==1";
-//
-//    List<DeviceInfo> deviceInfoList =
-//        List.of(
-//            new DeviceInfo(1L, 123, 456, 789, "testName", now, "testFileName"),
-//            new DeviceInfo(2L, 123, 456, 789, "testName", now, "testFileName"),
-//            new DeviceInfo(3L, 123, 456, 789, "testName", now, "testFileName")
-//        );
-//
-//    QueryImpl<DeviceInfo> mockQuery = mock(QueryImpl.class);
-//    JpaCriteriaQueryVisitor<CriteriaQuery<DeviceInfo>> jpaCriteriaQueryVisitor = mock(
-//        JpaCriteriaQueryVisitor.class);
-//    CriteriaBuilder criteriaBuilder = mock(CriteriaBuilderImpl.class);
-//    CriteriaQuery<DeviceInfo> criteriaQuery = mock(CriteriaQueryImpl.class);
-//    Root root =  mock(Root.class);
-//
-//    when(entityManager.createQuery(any(CriteriaQuery.class))).thenReturn(mockQuery);
-//    when(entityManager.getCriteriaBuilder()).thenReturn(criteriaBuilder);
-//    when(criteriaBuilder.createQuery(DeviceInfo.class)).thenReturn(criteriaQuery);
-//    when(criteriaQuery.where(any(Predicate.class))).thenReturn(criteriaQuery);
-//    when(criteriaQuery.from(DeviceInfo.class)).thenReturn(root);
-//    when(mockQuery.getResultList()).thenReturn(deviceInfoList);
-//    when(deviceInfoMapper.toDeviceInfoDto(any(DeviceInfo.class))).thenReturn(new DeviceInfoDto());
-//
-//    Page<DeviceInfoDto> resultPage = deviceInfoService.getAllDeviceInfo(query, pageRequest);
-//
-//    assertEquals(resultPage.getSize(), deviceInfoList.size());
-//
-//    verify(entityManager).createQuery(any(CriteriaQuery.class));
-//    verify(deviceInfoMapper, times(3)).toDeviceInfoDto(any(DeviceInfo.class));
-//
-//  }
+
+  @Test
+  void testGetAllDeviceInfoWithSearchCriteria() {
+    LocalDateTime now = LocalDateTime.now();
+
+    PageRequest pageRequest = PageRequest.of(0, 3);
+    String query = "id==1";
+
+    List<DeviceInfo> deviceInfoList =
+        List.of(
+            new DeviceInfo(1L, 123, 456, 789, "testName", now, "testFileName"),
+            new DeviceInfo(2L, 123, 456, 789, "testName", now, "testFileName"),
+            new DeviceInfo(3L, 123, 456, 789, "testName", now, "testFileName")
+        );
+
+    QueryImpl<DeviceInfo> mockQuery = mock(QueryImpl.class);
+    CriteriaQuery<DeviceInfo> criteriaQuery = mock(CriteriaQueryImpl.class);
+
+    when(rsqlCriteriaQueryBuilder.build(query, entityManager)).thenReturn(criteriaQuery);
+    when(entityManager.createQuery(any(CriteriaQuery.class))).thenReturn(mockQuery);
+
+    when(mockQuery.setFirstResult(anyInt())).thenReturn(mockQuery);
+    when(mockQuery.setMaxResults(anyInt())).thenReturn(mockQuery);
+    when(mockQuery.getResultList()).thenReturn(deviceInfoList);
+
+
+
+    Page<DeviceInfoDto> resultPage = deviceInfoService.getAllDeviceInfo(query, pageRequest);
+
+    assertEquals(resultPage.getSize(), deviceInfoList.size());
+
+    verify(entityManager).createQuery(any(CriteriaQuery.class));
+    verify(rsqlCriteriaQueryBuilder).build(query, entityManager);
+    verify(deviceInfoMapper, times(3)).toDeviceInfoDto(any(DeviceInfo.class));
+
+  }
 }
