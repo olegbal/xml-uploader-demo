@@ -16,9 +16,7 @@ import com.github.olegbal.xmluploader.repository.DeviceInfoRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import org.hibernate.query.criteria.internal.CriteriaBuilderImpl;
 import org.hibernate.query.criteria.internal.CriteriaQueryImpl;
 import org.hibernate.query.internal.QueryImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -161,14 +159,15 @@ class JpaDeviceInfoServiceTest {
     when(mockQuery.setMaxResults(anyInt())).thenReturn(mockQuery);
     when(mockQuery.getResultList()).thenReturn(deviceInfoList);
 
-
-
     Page<DeviceInfoDto> resultPage = deviceInfoService.getAllDeviceInfo(query, pageRequest);
 
     assertEquals(resultPage.getSize(), deviceInfoList.size());
 
     verify(entityManager).createQuery(any(CriteriaQuery.class));
     verify(rsqlCriteriaQueryBuilder).build(query, entityManager);
+    verify(mockQuery).setFirstResult(anyInt());
+    verify(mockQuery).setMaxResults(anyInt());
+    verify(mockQuery).getResultList();
     verify(deviceInfoMapper, times(3)).toDeviceInfoDto(any(DeviceInfo.class));
 
   }
