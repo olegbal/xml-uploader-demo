@@ -12,11 +12,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/api/v1/device-info?page=0&size=2&sort=id,desc",
+					"raw": "localhost:8983/api/v1/device-info?query=filename==example.xml",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "8983",
 					"path": [
 						"api",
 						"v1",
@@ -24,16 +24,86 @@
 					],
 					"query": [
 						{
-							"key": "page",
-							"value": "0"
-						},
+							"key": "query",
+							"value": "filename==example.xml"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get device info by filename",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8983/api/v1/device-info?query=filename==example.xml",
+					"host": [
+						"localhost"
+					],
+					"port": "8983",
+					"path": [
+						"api",
+						"v1",
+						"device-info"
+					],
+					"query": [
 						{
-							"key": "size",
-							"value": "2"
-						},
+							"key": "query",
+							"value": "filename==example.xml"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get device info by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8983/api/v1/device-info?query=id==1",
+					"host": [
+						"localhost"
+					],
+					"port": "8983",
+					"path": [
+						"api",
+						"v1",
+						"device-info"
+					],
+					"query": [
 						{
-							"key": "sort",
-							"value": "id,desc"
+							"key": "query",
+							"value": "id==1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get device info by id OR filename",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8983/api/v1/device-info?query=id==1,filename==deviceinfo-valid.xml",
+					"host": [
+						"localhost"
+					],
+					"port": "8983",
+					"path": [
+						"api",
+						"v1",
+						"device-info"
+					],
+					"query": [
+						{
+							"key": "query",
+							"value": "id==1,filename==deviceinfo-valid.xml"
 						}
 					]
 				}
@@ -51,7 +121,7 @@
 						{
 							"key": "file",
 							"type": "file",
-							"src": []
+							"src": "/Users/alehbalakhanau/Desktop/example.xml"
 						},
 						{
 							"key": "file",
@@ -61,7 +131,7 @@
 						}
 					]
 				},
-				"url": "localhost:8080/api/v1/device-info"
+				"url": "localhost:8983/api/v1/device-info"
 			},
 			"response": []
 		}
